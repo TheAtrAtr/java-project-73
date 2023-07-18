@@ -3,6 +3,8 @@ plugins {
     id 'org.springframework.boot' version '3.1.1'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'application'
+    id 'checkstyle'
+    id 'jacoco'
 }
 
 group = 'hexlet.code'
@@ -24,6 +26,22 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+compileJava {
+    options.release = 20
+}
+application {
+    mainClass = 'app/src/main/java/hexlet/code/AppApplication.java'
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
+}
+
+checkstyle {
+    toolVersion '10.12.1'
 }
 
 task stage(dependsOn: ['clean', 'installDist'])
