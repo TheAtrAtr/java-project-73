@@ -27,9 +27,7 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
-compileJava {
-    options.release = 20
-}
+
 application {
     mainClass = 'app/src/main/java/hexlet/code/AppApplication.java'
 }
