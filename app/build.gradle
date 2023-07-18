@@ -29,13 +29,15 @@ tasks.named('test') {
 }
 
 application {
-    mainClass = 'app/src/main/java/hexlet/code/AppApplication.java'
+    mainClass = 'hexlet/code/AppApplication'
+}
+jacoco {
+    applyTo run
 }
 
-jacocoTestReport {
-    reports {
-        xml.required = true
-    }
+tasks.register('applicationCodeCoverageReport', JacocoReport) {
+    executionData run
+    sourceSets sourceSets.main
 }
 
 checkstyle {

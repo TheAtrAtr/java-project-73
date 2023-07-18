@@ -25,7 +25,7 @@ lint:
 	./gradlew checkstyleMain checkstyleTest
 
 update-deps:
-	./gradlew useLatestVersions
+	./gradlew useLatestVersi
 
 
 build-run: build run
