@@ -1,5 +1,5 @@
 setup:
-	gradle wrapper --gradle-version 7.6
+	gradle wrapper --gradle-version 8.2.1
 
 clean:
 	./gradlew clean
@@ -37,3 +37,5 @@ db-migrate:
 
 report:
 	./gradlew jacocoTestReport
+
+.PHONY: build

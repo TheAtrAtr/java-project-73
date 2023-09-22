@@ -1,39 +1,40 @@
 setup:
-	gradle wrapper --gradle-version 7.6
+	make -C app setup
 
 clean:
-	./gradlew clean
+	make -C app clean
 
 build:
-	./gradlew clean build
+	make -C app build
 
 start:
-	./gradlew bootRun --args='--spring.profiles.active=dev'
-
-start-prod:
-	./gradlew bootRun --args='--spring.profiles.active=prod'
+	make -C app start
 
 install:
-	./gradlew installDist
+	make -C app install
 
 start-dist:
-	./build/install/app/bin/app
-
-lint:
-	./gradlew checkstyleMain checkstyleTest
-
-test:
-	./gradlew test
-
-check-updates:
-	./gradlew dependencyUpdates
+	make -C app start-dist
 
 generate-migrations:
-	gradle diffChangeLog
+	make -C app generate-migrations
 
-db-migrate:
-	./gradlew update
+lint:
+	make -C app lint
 
+test:
+	make -C app test
 
 report:
-	./gradlew jacocoTestReport
+	make -C app report
+
+check-updates:
+	make -C app check-updates
+
+image-build:
+	docker build -t hexletcomponents/java-javalin-blog:latest .
+
+image-push:
+	docker push hexletcomponents/java-javalin-blog:latest
+
+.PHONY: build
