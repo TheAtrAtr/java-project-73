@@ -1,5 +1,5 @@
 setup:
-	gradle wrapper --gradle-version 7.6
+	gradle wrapper --gradle-version 7.3
 
 clean:
 	./gradlew clean
@@ -25,6 +25,9 @@ lint:
 test:
 	./gradlew test
 
+report:
+	./gradlew jacocoTestReport
+
 check-updates:
 	./gradlew dependencyUpdates
 
@@ -35,5 +38,4 @@ db-migrate:
 	./gradlew update
 
 
-report:
-	./gradlew jacocoTestReport
+.PHONY: build
