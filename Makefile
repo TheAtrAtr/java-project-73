@@ -1,11 +1,11 @@
 setup:
-	gradle wrapper --gradle-version 7.3
+	gradle wrapper --gradle-version 8.2
 
 clean:
 	./gradlew clean
 
 build:
-	./gradlew clean build
+	gradle clean build
 
 start:
 	./gradlew bootRun --args='--spring.profiles.active=dev'
