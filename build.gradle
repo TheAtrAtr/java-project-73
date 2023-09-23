@@ -1,140 +1,137 @@
 plugins {
-	id 'application'
-	id 'checkstyle'
-	id 'org.springframework.boot' version '2.7.11'
-	id 'io.spring.dependency-management' version '1.1.0'
-	id 'org.liquibase.gradle' version '2.1.1'
-	id 'org.springdoc.openapi-gradle-plugin' version '1.3.3'
-	id 'com.github.johnrengelman.processes' version '0.5.0'
-	id 'com.adarshr.test-logger' version '2.1.1'
-	id 'jacoco'
-	id 'org.siouan.frontend-jdk11' version '6.0.0'
+    id 'application'
+    id 'checkstyle'
+    id 'org.springframework.boot' version '2.7.11'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.liquibase.gradle' version '2.1.1'
+    id 'org.springdoc.openapi-gradle-plugin' version '1.3.3'
+    id 'com.github.johnrengelman.processes' version '0.5.0'
+    id 'com.adarshr.test-logger' version '2.1.1'
+    id 'jacoco'
+    id 'org.siouan.frontend-jdk11' version '6.0.0'
 }
 
 group = 'hexlet.code'
-version = '0.0.1-SNAPSHOT'
+version = '1.0-SNAPSHOT'
 sourceCompatibility = '20'
 
 application {
-	mainClass = 'hexlet.code.AppApplication'
+    mainClass = 'hexlet.code.AppApplication'
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	compileOnly 'org.projectlombok:lombok:1.18.22'
+    compileOnly 'org.projectlombok:lombok:1.18.22'
 
-	annotationProcessor(
-			'org.projectlombok:lombok:1.18.22',
-			'com.querydsl:querydsl-apt:5.0.0:jpa',
-			'javax.annotation:javax.annotation-api:1.3.2',
-			'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final'
-	)
+    annotationProcessor(
+            'org.projectlombok:lombok:1.18.22',
+            'com.querydsl:querydsl-apt:5.0.0:jpa',
+            'javax.annotation:javax.annotation-api:1.3.2',
+            'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final'
+    )
 
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	implementation(
-			'org.springframework.boot:spring-boot-starter-data-jpa',
-			'org.springframework.boot:spring-boot-starter-web',
-			'org.springframework.boot:spring-boot-starter-actuator',
-			'org.springframework.boot:spring-boot-starter-validation',
-			'org.springframework.boot:spring-boot-starter-security',
-			'com.querydsl:querydsl-core:5.0.0',
-			'com.querydsl:querydsl-jpa:5.0.0',
-			'org.liquibase:liquibase-core:4.6.1',
-			'io.jsonwebtoken:jjwt:0.9.1',
-			'org.springdoc:springdoc-openapi-ui:1.5.12',
-			'com.rollbar:rollbar-spring-boot-webmvc:1.8.1'
-	)
+    implementation(
+            'org.springframework.boot:spring-boot-starter-data-jpa',
+            'org.springframework.boot:spring-boot-starter-web',
+            'org.springframework.boot:spring-boot-starter-actuator',
+            'org.springframework.boot:spring-boot-starter-validation',
+            'org.springframework.boot:spring-boot-starter-security',
+            'com.querydsl:querydsl-core:5.0.0',
+            'com.querydsl:querydsl-jpa:5.0.0',
+            'org.liquibase:liquibase-core:4.6.1',
+            'io.jsonwebtoken:jjwt:0.9.1',
+            'org.springdoc:springdoc-openapi-ui:1.5.12',
+            'com.rollbar:rollbar-spring-boot-webmvc:1.8.1'
+    )
 
-	testImplementation(
-			'org.springframework.boot:spring-boot-starter-security',
-			'org.springframework.security:spring-security-test:5.5.1',
-			'org.springframework.boot:spring-boot-starter-test',
-			'com.tobedevoured.modelcitizen:spring:0.8.3'
-	)
+    testImplementation(
+            'org.springframework.boot:spring-boot-starter-security',
+            'org.springframework.security:spring-security-test:5.5.1',
+            'org.springframework.boot:spring-boot-starter-test',
+            'com.tobedevoured.modelcitizen:spring:0.8.3'
+    )
 
-	liquibaseRuntime(
-			sourceSets.main.output,
-			'org.liquibase:liquibase-core:4.6.1',
-			'org.liquibase.ext:liquibase-hibernate5:4.5.0',
-			'org.springframework.boot:spring-boot-starter-data-jpa'
-	)
+    liquibaseRuntime(
+            sourceSets.main.output,
+            'org.liquibase:liquibase-core:4.6.1',
+            'org.liquibase.ext:liquibase-hibernate5:4.5.0',
+            'org.springframework.boot:spring-boot-starter-data-jpa'
+    )
 
-	runtimeOnly (
-			'com.h2database:h2',
-			'org.postgresql:postgresql:42.2.24'
-	)
+    runtimeOnly(
+            'com.h2database:h2',
+            'org.postgresql:postgresql:42.2.24'
+    )
 }
 
 compileJava {
-	options.release = 20
-	options.encoding = 'UTF-8'
+    options.release = 20
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
 
 jacocoTestReport {
-	reports {
-		xml.required = true
-	}
-}
-
-test {
-	finalizedBy jacocoTestReport
-}
-
-test {
-	useJUnitPlatform()
+    reports {
+        xml.required = true
+    }
 }
 
 diffChangeLog {
-	dependsOn compileJava
+    dependsOn compileJava
 }
 
 liquibase {
-	activities {
-		main {
-			changeLogFile 'src/main/resources/db/changelog/changelog-master.xml'
-			url 'jdbc:h2:./taskManager'
-			username ''
-			password ''
-			referenceUrl 'hibernate:spring:hexlet.code.model.' +
-					'?dialect=org.hibernate.dialect.H2Dialect' +
-					'&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy'
-		}
-	}
+    activities {
+        main {
+            changeLogFile 'src/main/resources/db/changelog/changelog-master.xml'
+            url 'jdbc:h2:./taskManager'
+            username ''
+            password ''
+            referenceUrl 'hibernate:spring:hexlet.code.model.' +
+                    '?dialect=org.hibernate.dialect.H2Dialect' +
+                    '&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy'
+        }
+    }
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
 
 frontend {
-	nodeVersion = '16.13.1'
-	installScript = 'install'
-	assembleScript = 'run build'
-	packageJsonDirectory = file("${projectDir}/frontend")
+    nodeVersion = '16.13.1'
+    installScript = 'install'
+    assembleScript = 'run build'
+    packageJsonDirectory = file("${projectDir}/frontend")
 }
 
 def configFrontendTasks = {
-	inputs.files(fileTree("$projectDir/frontend").exclude('build', 'node_modules'))
-	outputs.dir("$buildDir/resources/main/static")
+    inputs.files(fileTree("$projectDir/frontend").exclude('build', 'node_modules'))
+    outputs.dir("$buildDir/resources/main/static")
 }
 
 assembleFrontend {
-	configure configFrontendTasks
+    configure configFrontendTasks
 
-	doLast {
-		copy {
-			from "$projectDir/frontend/build"
-			into "$buildDir/resources/main/static"
-		}
-	}
+    doLast {
+        copy {
+            from "$projectDir/frontend/build"
+            into "$buildDir/resources/main/static"
+        }
+    }
 }
 
 installFrontend {
-	configure configFrontendTasks
+    configure configFrontendTasks
 }
 
 processResources.dependsOn assembleFrontend
