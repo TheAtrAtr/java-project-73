@@ -1,25 +1,23 @@
 package hexlet.code.repository;
 
 import hexlet.code.model.QTask;
+import com.querydsl.core.types.dsl.SimpleExpression;
 import hexlet.code.model.Task;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.querydsl.binding.QuerydslBinderCustomizer;
 import org.springframework.data.querydsl.binding.QuerydslBindings;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TaskRepository extends
-        CrudRepository<Task, Long>,
-        QuerydslPredicateExecutor<Task>,
+public interface TaskRepository extends JpaRepository<Task, Long>, QuerydslPredicateExecutor<Task>,
         QuerydslBinderCustomizer<QTask> {
 
     @Override
     default void customize(QuerydslBindings bindings, QTask task) {
-        bindings.bind(task.taskStatus.id).first((path, value) -> path.eq(value));
-        bindings.bind(task.executor.id).first((path, value) -> path.eq(value));
-        bindings.bind(task.author.id).first((path, value) -> path.eq(value));
-        bindings.bind(task.labels.any().id).first((path, value) -> path.eq(value));
-        bindings.excluding(task.id, task.name, task.description, task.createdAt);
+        bindings.bind(task.taskStatus.id).first(SimpleExpression::eq);
+        bindings.bind(task.executor.id).first(SimpleExpression::eq);
+        bindings.bind(task.labels.any().id).first((SimpleExpression::eq));
+        bindings.bind(task.author.id).first(SimpleExpression::eq);
     }
 }
