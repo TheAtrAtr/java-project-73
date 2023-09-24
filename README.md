@@ -5,7 +5,7 @@
 
 [Деплой](https://project5-yvpe.onrender.com)  
 
-[Svager](https://project5-yvpe.onrender.com/swagger-ui/index.html#/)  
+[Open API](https://project5-yvpe.onrender.com/swagger-ui/index.html#/)  
 
 Task Manager – система управления задачами, подобная <a href="http://www.redmine.org/" target="_blank">http://www.redmine.org/</a>. 
 Она позволяет ставить задачи, назначать исполнителей и менять их статусы. Для работы с системой требуется регистрация и аутентификация.
