@@ -1,51 +1,52 @@
 package hexlet.code.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Id;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.Set;
 
+import static jakarta.persistence.GenerationType.IDENTITY;
 import static jakarta.persistence.TemporalType.TIMESTAMP;
 
+
+@Entity
 @Getter
 @Setter
-@Entity
 @Table(name = "tasks")
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
-    @NotBlank
-    @Column(unique = true)
     private String name;
 
+    @Lob
     private String description;
 
-    @NotNull
     @ManyToOne
-    private TaskStatus taskStatus;
+    private Status taskStatus;
 
-    @NotNull
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Label> labels;
+
     @ManyToOne
     private User author;
 
@@ -56,6 +57,8 @@ public class Task {
     @Temporal(TIMESTAMP)
     private Date createdAt;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Label> labels;
+    public Task(final Long id) {
+        this.id = id;
+    }
+
 }

@@ -3,17 +3,22 @@ package hexlet.code.service;
 import hexlet.code.dto.UserDto;
 import hexlet.code.model.User;
 
+import java.util.List;
+
 public interface UserService {
 
-    User createNewUser(UserDto userDto);
+    List<User> findAllUsers();
 
-    User updateUser(Long id, UserDto userDto);
+    User findUserById(long id);
 
-    User getUser(Long id);
+    User createUser(UserDto userDto);
 
-    void deleteUser(Long id);
+    User updateUserById(long id, UserDto userDto);
+
+    void deleteUserById(long id);
 
     String getCurrentUserName();
 
     User getCurrentUser();
+
 }

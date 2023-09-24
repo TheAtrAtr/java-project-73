@@ -1,16 +1,10 @@
 package hexlet.code.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class LabelDto {
-
-    @NotBlank
-    private String name;
+public record LabelDto(
+        @NotBlank(message = "Label name is required")
+        @Size(min = 1, max = 30, message = "Label name needs to be between 1 and 30 characters long")
+        String name) {
 }

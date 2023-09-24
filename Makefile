@@ -5,7 +5,7 @@ clean:
 	./gradlew clean
 
 build:
-	gradle clean build
+	./gradlew clean build
 
 start:
 	./gradlew bootRun --args='--spring.profiles.active=dev'
@@ -36,6 +36,5 @@ generate-migrations:
 
 db-migrate:
 	./gradlew update
-
 
 .PHONY: build

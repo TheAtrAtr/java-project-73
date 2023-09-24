@@ -54,7 +54,7 @@ const TaskFilter = (props) => {
         }
 
         if (formData.labelId) {
-          params.labels = formData.labelId;
+          params.labelsId = formData.labelId;
         }
 
         const { data: response } = await axios
@@ -150,6 +150,8 @@ const TaskFilter = (props) => {
               label={t('isMyTasks')}
               onChange={f.handleChange}
               value={f.values.isMyTasks}
+              id="isMyTasks"
+              name="isMyTasks"
             />
           </Form.Group>
 

@@ -3,9 +3,6 @@ package hexlet.code.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hexlet.code.component.JWTHelper;
 import hexlet.code.dto.LoginDto;
-import java.io.IOException;
-import java.util.Map;
-import java.util.stream.Collectors;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,14 +15,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
+import java.io.IOException;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     private final JWTHelper jwtHelper;
 
-    public JWTAuthenticationFilter(final AuthenticationManager authenticationManager,
-                                   final RequestMatcher loginRequest,
+    public JWTAuthenticationFilter(final AuthenticationManager authenticationManager, final RequestMatcher loginRequest,
                                    final JWTHelper jwtHelper) {
         super(authenticationManager);
         super.setRequiresAuthenticationRequestMatcher(loginRequest);
@@ -36,9 +36,9 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(final HttpServletRequest request,
                                                 final HttpServletResponse response) throws AuthenticationException {
         final LoginDto loginData = getLoginData(request);
-        final var authRequest = new UsernamePasswordAuthenticationToken(
-                loginData.getEmail(),
-                loginData.getPassword()
+        final UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
+                loginData.email(),
+                loginData.password()
         );
         setDetails(request, authRequest);
         return getAuthenticationManager().authenticate(authRequest);
@@ -65,4 +65,5 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         response.getWriter().println(token);
     }
+
 }

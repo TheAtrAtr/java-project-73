@@ -1,27 +1,29 @@
 package hexlet.code.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import java.util.Set;
+import jakarta.validation.constraints.Size;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class TaskDto {
+import java.util.List;
 
-    @NotBlank
-    private String name;
+public record TaskDto(
+        @NotBlank(message = "Task name is required")
+        @Size(min = 1, max = 200, message = "Task name needs to be between 1 and 200 characters long")
+        String name,
 
-    private String description;
+        @Size(max = 1000, message = "Task description needs to be between 0 and 1000 characters long")
+        String description,
 
-    private Long executorId;
+        @NotNull(message = "Task status is required")
+        Long taskStatusId,
 
-    @NotNull
-    private Long taskStatusId;
+        List<Long> labelIds,
 
-    private Set<Long> labelIds;
+        Long executorId) {
+    public TaskDto {
+        if (labelIds == null) {
+            labelIds = List.of();
+        }
+    }
+
 }

@@ -1,8 +1,6 @@
 package hexlet.code.filter;
 
 import hexlet.code.component.JWTHelper;
-import java.io.IOException;
-import java.util.Optional;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,6 +9,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+import java.util.Optional;
 
 import static hexlet.code.config.security.SecurityConfig.DEFAULT_AUTHORITIES;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -39,16 +40,14 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                                     final HttpServletResponse response,
                                     final FilterChain filterChain) throws ServletException, IOException {
 
-        final var authToken = Optional.ofNullable(request.getHeader(AUTHORIZATION))
+        final UsernamePasswordAuthenticationToken authToken = Optional.ofNullable(request.getHeader(AUTHORIZATION))
                 .map(header -> header.replaceFirst("^" + BEARER, ""))
                 .map(String::trim)
                 .map(jwtHelper::verify)
                 .map(claims -> claims.get(SPRING_SECURITY_FORM_USERNAME_KEY))
                 .map(Object::toString)
                 .map(this::buildAuthToken)
-                .orElseThrow();
-
-
+                .orElse(null);
         SecurityContextHolder.getContext().setAuthentication(authToken);
         filterChain.doFilter(request, response);
     }
