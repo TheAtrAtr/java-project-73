@@ -9,6 +9,7 @@ import hexlet.code.dto.StatusDto;
 import hexlet.code.dto.UserDto;
 import hexlet.code.repository.LabelRepository;
 import hexlet.code.repository.StatusRepository;
+import hexlet.code.repository.TaskRepository;
 import hexlet.code.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -46,16 +47,18 @@ public class TestUtils {
     private final StatusRepository statusRepository;
     private final LabelRepository labelRepository;
     private final JWTHelper jwtHelper;
+    private final TaskRepository taskRepository;
 
     public TestUtils(@Value("${base-url}") final String baseUrl, final MockMvc mockMvc,
                      final UserRepository userRepository, final StatusRepository statusRepository,
-                     final LabelRepository labelRepository, final JWTHelper jwtHelper) {
+                     final LabelRepository labelRepository, final JWTHelper jwtHelper, TaskRepository taskRepository) {
         this.baseUrl = baseUrl;
         this.mockMvc = mockMvc;
         this.userRepository = userRepository;
         this.statusRepository = statusRepository;
         this.labelRepository = labelRepository;
         this.jwtHelper = jwtHelper;
+        this.taskRepository = taskRepository;
     }
 
     public UserDto getTestRegistrationDto() {
@@ -75,6 +78,7 @@ public class TestUtils {
     }
 
     public void tearDown() {
+        taskRepository.deleteAll();
         userRepository.deleteAll();
         statusRepository.deleteAll();
         labelRepository.deleteAll();
