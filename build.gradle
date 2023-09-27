@@ -140,6 +140,7 @@ installFrontend {
 	configure configFrontendTasks
 }
 
+
 processResources.dependsOn assembleFrontend
 
 tasks.named('test') {
